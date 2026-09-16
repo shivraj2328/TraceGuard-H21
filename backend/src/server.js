@@ -1,6 +1,6 @@
 const express = require('express');
 const cors = require('cors');
-const v1Routes = require('./src/routes/v1');
+const v1Routes = require('./routes/v1');
 
 const app = express();
 
@@ -12,4 +12,6 @@ app.use(express.json());
 app.use('/api/v1', v1Routes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running at http://localhost:${PORT}`);
+});
