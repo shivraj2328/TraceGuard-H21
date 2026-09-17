@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   Activity, 
   ShieldAlert, 
@@ -11,6 +12,8 @@ import {
 } from 'lucide-react';
 
 export default function Dashboard({ user }) {
+  const navigate = useNavigate();
+
   const metrics = [
     { title: 'Total Traces Analyzed', value: '1,284,920', change: '+12.4%', status: 'up', icon: Activity },
     { title: 'Active Threat Alerts', value: '3 Critical', change: '-2 today', status: 'down', icon: ShieldAlert, alert: true },
@@ -32,7 +35,7 @@ export default function Dashboard({ user }) {
         <div>
           <h1 className="text-xl font-bold text-slate-100">Security & Traceability Overview</h1>
           <p className="text-xs text-slate-400 mt-1">
-            Real-time telemetry monitored for account <span className="text-indigo-400 font-mono">{user.email}</span>
+            Real-time telemetry monitored for account <span className="text-indigo-400 font-mono">{user?.email}</span>
           </p>
         </div>
         <div className="flex items-center gap-2 px-3 py-1.5 bg-slate-900 border border-slate-800 rounded-lg text-xs font-mono text-slate-300">
@@ -76,7 +79,10 @@ export default function Dashboard({ user }) {
               <FileCode className="w-4 h-4 text-indigo-400" />
               <h2 className="text-sm font-semibold text-slate-100">Live Trace Log Activity</h2>
             </div>
-            <button className="text-xs text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer">
+            <button 
+              onClick={() => navigate('/trace-logs')}
+              className="text-xs text-indigo-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >
               View All <ArrowUpRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -136,7 +142,10 @@ export default function Dashboard({ user }) {
             </div>
           </div>
 
-          <button className="w-full mt-4 py-2 px-3 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-lg transition-colors cursor-pointer">
+          <button 
+            onClick={() => navigate('/security-alerts')}
+            className="w-full mt-4 py-2 px-3 bg-indigo-600/20 hover:bg-indigo-600/30 border border-indigo-500/30 text-indigo-300 text-xs font-medium rounded-lg transition-colors cursor-pointer"
+          >
             Run Security Audit
           </button>
         </div>
