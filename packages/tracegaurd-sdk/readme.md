@@ -72,18 +72,23 @@ const telemetry = new SDKResponse("CHECKOUT_PROCESS", origin);
 
 try {
   telemetry.addBreadCrumb("Cart validated", { category: "validation" });
-  telemetry.addBreadCrumb("Connecting to Payment Gateway", { category: "http" });
+  telemetry.addBreadCrumb("Connecting to Payment Gateway", {
+    category: "http",
+  });
 
   // Your business logic...
 
-  telemetry.setSuccess({ orderId: "ord_12345" }, "Checkout completed successfully");
+  telemetry.setSuccess(
+    { orderId: "ord_12345" },
+    "Checkout completed successfully",
+  );
 } catch (error: any) {
   telemetry.statusCode = error.statusCode || 500;
   telemetry.setError(
     { message: error.message, code: "CHECKOUT_FAILURE" },
-    error.name || "PaymentError"
+    error.name || "PaymentError",
   );
-  
+
   // Forward to your TraceGuard events ingestion endpoint
   await fetch("https://your-traceguard-backend.com/api/v1/telemetry/events", {
     method: "POST",
