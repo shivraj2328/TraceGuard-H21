@@ -1,26 +1,45 @@
 const { logger } = require("../utils/logger");
 
-const errorHandler = (error, req, res, next) => {
-  logger.error({
-    msg: "Internal Server Error Occurred",
-    message: error?.message || "internal server error",
-    stackTrace: error?.stack || "error stack !",
-    err: error,
-    route: req.originalUrl,
-    method: req.method,
-    userId: req.body?.userId || req.params?.userId || null,
-  });
-
-  // Determine the final error message cleanly in one place
-  const errorMessage = error?.error?.description || error?.message || "Internal Server Error";
-  const status = typeof error.statusCode === "number" ? error.statusCode : 500;
-
-  return res.status(status).json({
+const notFound = (req, res) => {
+  res.status(404).json({
     success: false,
-    message: errorMessage,
-    errors: error.errors || [],
-    data: error.data || null,
+    message: `Route not found: ${req.method} ${req.originalUrl}`,
   });
 };
 
-module.exports = { errorHandler };
+const errorHandler = (err, req, res, next) => {
+  logger.error({
+    msg: "Unhandled request error",
+    message: err?.message,
+    stack: err?.stack,
+    route: req.originalUrl,
+    method: req.method,
+  });
+
+  if (err?.name === "ValidationError") {
+    return res.status(400).json({
+      success: false,
+      message: "Validation failed",
+      errors: Object.values(err.errors).map((e) => e.message),
+    });
+  }
+
+  if (err?.code === 11000) {
+    return res.status(409).json({
+      success: false,
+      message: "A record with the same unique value already exists",
+    });
+  }
+
+  const status = Number.isInteger(err?.statusCode) ? err.statusCode : 500;
+
+  return res.status(status).json({
+    success: false,
+    message:
+      status === 500 && process.env.NODE_ENV === "production"
+        ? "Internal Server Error"
+        : err?.message || "Internal Server Error",
+  });
+};
+
+module.exports = { notFound, errorHandler };
