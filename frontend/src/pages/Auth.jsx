@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Mail, Lock, User, ArrowRight, Briefcase, AlertCircle, ChevronDown, Check } from 'lucide-react';
 import TraceGuardLogo from '../components/TraceGuardLogo';
+import { useNavigate, useLocation } from 'react-router-dom';
 
-export default function Auth({ onLoginSuccess }) {
-  const [isRegister, setIsRegister] = useState(false);
+export default function Auth({ mode = 'login', onLoginSuccess }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // Determine if register mode is active based on prop or current URL path
+  const isRegister = mode === 'register' || location.pathname === '/register';
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -54,9 +60,10 @@ export default function Auth({ onLoginSuccess }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const handleTabSwitch = (registerState) => {
-    setIsRegister(registerState);
+  // Switch between /login and /register routes
+  const handleTabSwitch = (toRegister) => {
     setErrorMsg('');
+    navigate(toRegister ? '/register' : '/login');
   };
 
   const handleAuthSubmit = (e) => {
@@ -118,6 +125,7 @@ export default function Auth({ onLoginSuccess }) {
       const sessionUser = { ...userData, token: 'mock-jwt-token' };
       localStorage.setItem('traceguard_active_user', JSON.stringify(sessionUser));
       onLoginSuccess(sessionUser);
+      navigate('/dashboard');
     }, 800);
   };
 

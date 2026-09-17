@@ -16,7 +16,6 @@ const TraceGuardLogo = ({
       <svg
         width={width}
         height={height}
-        data-aos="zoom-out"
         viewBox="0 0 240 65"
         xmlns="http://www.w3.org/2000/svg"
         role="img"
