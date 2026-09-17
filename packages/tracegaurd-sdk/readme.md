@@ -1,4 +1,4 @@
-# @ignite/traceguard-sdk
+# @traceguardignite/traceguard-sdk
 
 Official Node.js and TypeScript client SDK for **TraceGuard** — an intelligent telemetry, host metrics, and distributed crash reporting platform.
 
@@ -13,7 +13,7 @@ Official Node.js and TypeScript client SDK for **TraceGuard** — an intelligent
 ## Installation
 
 ```bash
-npm install @ignite/traceguard-sdk
+npm install @traceguardignite/traceguard-sdk
 ```
 
 ---
@@ -25,7 +25,7 @@ npm install @ignite/traceguard-sdk
 Call `init` once during application bootstrap (e.g., in your Express/Fastify/Hono server):
 
 ```typescript
-import { init } from "@ignite/traceguard-sdk";
+import { init } from "@traceguardignite/traceguard-sdk";
 
 await init({
   connection: "https://your-traceguard-backend.com/api/v1/telemetry/verify",
@@ -40,7 +40,7 @@ await init({
 Start background OS telemetry collection to continuously stream CPU and RAM metrics to the TraceGuard dashboard:
 
 ```typescript
-import { MetricAgent } from "@ignite/traceguard-sdk";
+import { MetricAgent } from "@traceguardignite/traceguard-sdk";
 
 const agent = new MetricAgent({
   endpoint: "https://your-traceguard-backend.com/api/v1/metrics",
@@ -60,7 +60,7 @@ agent.start();
 Track execution trails and capture unhandled exceptions with breadcrumb timelines:
 
 ```typescript
-import { SDKResponse } from "@ignite/traceguard-sdk";
+import { SDKResponse } from "@traceguardignite/traceguard-sdk";
 
 const origin = {
   endpoint: "/api/checkout",

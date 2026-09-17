@@ -4,7 +4,7 @@ const {
   getConnection,
   SDKResponse,
   MetricAgent,
-} = require("@ignite/traceguard-sdk");
+} = require("@traceguardignite/traceguard-sdk");
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
@@ -27,12 +27,12 @@ app.use("/api/auth", authRouter);
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "example express server" });
 });
-const traceguardPkg = require("@ignite/traceguard-sdk");
+const traceguardPkg = require("@traceguardignite/traceguard-sdk");
 console.log("TRACEGUARD KEYS:", Object.keys(traceguardPkg));
 console.log("METRIC AGENT TYPE:", typeof traceguardPkg.MetricAgent);
 console.log(
   "TRACEGUARD RESOLVED TO:",
-  require.resolve("@ignite/traceguard-sdk"),
+  require.resolve("@traceguardignite/traceguard-sdk"),
 );
 console.log(process?.env?.BASE_MAIN_BACKEND_URL);
 connectDB()

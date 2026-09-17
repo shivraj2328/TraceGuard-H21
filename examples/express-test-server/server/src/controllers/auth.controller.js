@@ -1,4 +1,4 @@
-const { getConnection, SDKResponse } = require("@ignite/traceguard-sdk");
+const { getConnection, SDKResponse } = require("@traceguardignite/traceguard-sdk");
 
 const User = require("../models/user.model");
 const logger = require("../utils/logger");

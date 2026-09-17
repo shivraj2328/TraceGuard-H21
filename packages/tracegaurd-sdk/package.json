@@ -1,5 +1,5 @@
 {
-  "name": "@ignite/traceguard-sdk",
+  "name": "@traceguardignite/traceguard-sdk",
   "version": "1.0.1",
   "description": "an sdk to track logs error every single detail to track system health",
   "main": "dist/index.js",
