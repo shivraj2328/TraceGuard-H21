@@ -1,57 +1,77 @@
 import React, { useState, useEffect } from 'react';
-import Welcome from './pages/Welcome';
-import Auth from './pages/Auth';
-import Dashboard from './pages/Dashboard';
-import TraceLogs from './pages/TraceLogs';
-import Sidebar from './components/Sidebar';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 
+import Sidebar from './components/Sidebar';
+import ProtectedRoute from './components/ProtectedRoute';
+import Auth from './pages/Auth';
+import Welcome from './pages/Welcome';
+import Dashboard from './pages/Dashboard';
+import Settings from './pages/Settings';
+import TraceLogs from './pages/TraceLogs';
+import SecurityAlerts from './pages/SecurityAlerts';
+import MonitoredServices from './pages/MonitoredServices';
 
 export default function App() {
+  const [user, setUser] = useState(() => {
+    const saved = localStorage.getItem('traceguard_active_user');
+    return saved ? JSON.parse(saved) : null;
+  });
+
   useEffect(() => {
     AOS.init({
-      duration: 1000,
+      duration: 800,
       once: false,
       mirror: true,
+      easing: 'ease-out-cubic',
     });
   }, []);
 
-  const [user, setUser] = useState(null);
-  const [showAuth, setShowAuth] = useState(false);
-  const [activeTab, setActiveTab] = useState('overview');
+  const handleLoginSuccess = (userData) => {
+    setUser(userData);
+  };
 
-  useEffect(() => {
-    const storedUser = localStorage.getItem('traceguard_active_user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (err) {
-        localStorage.removeItem('traceguard_active_user');
-      }
-    }
-  }, []);
+  const handleLogout = () => {
+    localStorage.removeItem('traceguard_active_user');
+    setUser(null);
+  };
 
-  // 1. If not logged in and hasn't clicked "Access Portal", show Welcome page
-  if (!user && !showAuth) {
-    return <Welcome onGetStarted={() => setShowAuth(true)} />;
-  }
-
-  // 2. If not logged in but clicked "Access Portal", show Auth form
-  if (!user && showAuth) {
-    return <Auth onLoginSuccess={(userData) => setUser(userData)} />;
-  }
-
-  // 3. Main Authenticated App Layout
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
-      <div className="flex flex-1">
-        <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-        <main className="flex-1 bg-slate-950 overflow-y-auto">
-          {activeTab === 'overview' && <Dashboard user={user} />}
-          {activeTab === 'traces' && <TraceLogs />}
-        </main>
-      </div>
+    <div className="min-h-screen bg-[#05070f] text-slate-100 flex">
+      {/* Single top-level Sidebar when logged in */}
+      {user && <Sidebar />}
+
+      {/* Main Content Area */}
+      <main className="flex-1 overflow-y-auto">
+        <Routes>
+          {/* Public Routes */}
+          <Route
+            path="/welcome"
+            element={user ? <Navigate to="/dashboard" replace /> : <Welcome />}
+          />
+          <Route
+            path="/login"
+            element={user ? <Navigate to="/dashboard" replace /> : <Auth mode="login" onLoginSuccess={handleLoginSuccess} />}
+          />
+          <Route
+            path="/register"
+            element={user ? <Navigate to="/dashboard" replace /> : <Auth mode="register" onLoginSuccess={handleLoginSuccess} />}
+          />
+
+          {/* Protected Application Routes */}
+          <Route element={<ProtectedRoute user={user} />}>
+            <Route path="/dashboard" element={<Dashboard user={user} />} />
+            <Route path="/trace-logs" element={<TraceLogs />} />
+            <Route path="/security-alerts" element={<SecurityAlerts />} />
+            <Route path="/monitored-services" element={<MonitoredServices />} />
+            <Route path="/settings" element={<Settings user={user} onLogout={handleLogout} />} />
+          </Route>
+
+          {/* Catch-all Fallback */}
+          <Route path="*" element={<Navigate to={user ? "/dashboard" : "/welcome"} replace />} />
+        </Routes>
+      </main>
     </div>
   );
 }
