@@ -4,7 +4,7 @@ const {
   getConnection,
   SDKResponse,
   MetricAgent,
-} = require("@traceops/traceguard-sdk"); // Ensure this matches the name in your package.json
+} = require("@ignite/traceguard-sdk");
 const express = require("express");
 const helmet = require("helmet");
 const cors = require("cors");
@@ -27,12 +27,12 @@ app.use("/api/auth", authRouter);
 app.get("/", (req, res) => {
   return res.status(200).json({ message: "example express server" });
 });
-const tracegaurdPkg = require("@traceops/traceguard-sdk");
-console.log("TRACEGAURD KEYS:", Object.keys(tracegaurdPkg));
-console.log("METRIC AGENT TYPE:", typeof tracegaurdPkg.MetricAgent);
+const traceguardPkg = require("@ignite/traceguard-sdk");
+console.log("TRACEGUARD KEYS:", Object.keys(traceguardPkg));
+console.log("METRIC AGENT TYPE:", typeof traceguardPkg.MetricAgent);
 console.log(
-  "TRACEGAURD RESOLVED TO:",
-  require.resolve("@traceops/traceguard-sdk"),
+  "TRACEGUARD RESOLVED TO:",
+  require.resolve("@ignite/traceguard-sdk"),
 );
 console.log(process?.env?.BASE_MAIN_BACKEND_URL);
 connectDB()

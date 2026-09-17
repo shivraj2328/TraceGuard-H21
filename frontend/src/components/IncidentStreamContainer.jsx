@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ErrorList from './ErrorList';
 import { transformTelemetryData } from '../utils/adapter';
+import { API_BASE } from '../config/api';
 
 export default function IncidentStreamContainer({
   projectId = 'project_test_server',
@@ -18,7 +19,7 @@ export default function IncidentStreamContainer({
       try {
         setIsLoading(true);
         const response = await fetch(
-          `http://localhost:5000/api/v1/telemetry/projects/${projectId}/events`
+          `${API_BASE}/telemetry/projects/${projectId}/events`
         );
         const json = await response.json();
 

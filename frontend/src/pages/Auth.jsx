@@ -2,8 +2,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Mail, Lock, User, KeyRound, ArrowRight, RefreshCw, ArrowLeft, Briefcase, AlertCircle, ChevronDown, Check, Loader2 } from 'lucide-react';
 import TraceGuardLogo from '../components/TraceGuardLogo';
 
-// Aligned with process.env.PORT (5000) and versioned route (/api/v1/auth)
-const API_BASE = 'http://localhost:5000/api/v1/auth';
+import { API_BASE as API_ROOT } from '../config/api';
+
+const API_BASE = `${API_ROOT}/auth`;
 
 async function handleResponse(res) {
   const contentType = res.headers.get('content-type');

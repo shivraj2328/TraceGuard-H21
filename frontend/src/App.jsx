@@ -11,6 +11,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import MainLayout from "./layouts/MainLayout";
 import ProtectedRoute from "./components/ProtectedRoute";
+import { API_BASE } from "./config/api";
 
 function WelcomePage({ user, onDemoLogin }) {
   const navigate = useNavigate();
@@ -53,7 +54,7 @@ export default function App() {
         }
 
         // Validate backend JWT session
-        const res = await fetch("http://localhost:5000/api/v1/auth/me", {
+        const res = await fetch(`${API_BASE}/auth/me`, {
           headers: {
             Authorization: `Bearer ${parsedUser.token}`,
           },
