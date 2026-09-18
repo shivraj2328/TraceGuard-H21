@@ -19,7 +19,7 @@ export default function IncidentStreamContainer({
       try {
         setIsLoading(true);
         const response = await fetch(
-          `${API_BASE}/telemetry/projects/${projectId}/events`
+          `${API_BASE}/telemetry/projects/events?projectId=${projectId}`
         );
         const json = await response.json();
 
