@@ -17,7 +17,7 @@
 
 ---
 
-<!--
+<!-- 
   📸 ADD A SCREENSHOT / GIF OF YOUR DASHBOARD HERE
   Example:
   <p align="center">
@@ -104,10 +104,11 @@ Critical events trigger notifications via Webhooks, Email, Slack, and more — s
 
 | Layer | Technology |
 |---|---|
-| Backend | `Node.js` / `Express` |
+| Backend | `Node.js` / `Express` *(update if different)* |
 | Database | MongoDB |
-| SDKs | `packages/sdk` Node.js |
-| Frontend/Dashboard | React, Tailwind |
+| SDKs | `packages/sdk` *(specify languages supported)* |
+| Frontend/Dashboard | *(e.g. React, Next.js — update)* |
+| Queue | *(e.g. Redis, RabbitMQ, Kafka — update)* |
 | CI/CD | GitHub Actions (`.github/workflow`) |
 
 ---
@@ -139,14 +140,27 @@ npm start
 
 ---
 
+## 🗺️ Roadmap
+
+- [x] Problem definition & system design
+- [x] Event Collector API (basic)
+- [ ] Linux monitoring agent
+- [ ] Event processing & queue integration
+- [ ] MongoDB schema & storage layer
+- [ ] Dashboard UI (search, live monitoring, analytics)
+- [ ] Alerting integrations (Webhook, Email, Slack)
+- [ ] Suspicious activity detection module
+
+---
+
 ## 👥 Team
 
 | Name | Role | GitHub |
 |---|---|---|
-| Nikhil Wankhede | Backend And System Architecture | [@nikhil-dev-395](https://github.com/nikhil-dev-395) |
+| Vaishnavi Shinde | Database | [@Vaishnavi482](https://github.com/Vaishnavi482) |
 | Siddharth Kapadane | Frontend | [@siddharthkapadne](https://github.com/siddharthkapadne777) |
-| Shivraj Jagtap | Backend | [@shivraj2328](https://github.com/shivraj2328) |
-| Fatima Shaikh | Database | [@FatimaNShaikh](https://github.com/FatimaNShaikh) |
+| Shivraj Jagtap | System Architecture| [@shivraj2328](https://github.com/shivraj2328) |
+| Fatima Shaikh | Backend | [@FatimaNShaikh](https://github.com/FatimaNShaikh) |
 
 ---
 
@@ -162,6 +176,6 @@ This project is licensed under the MIT License — see the [LICENSE](LICENSE) fi
 
 <div align="center">
 
-Made with ❤️ by **TraceOps** for KurukShetra 2.0.
+Made with ❤️ by **TraceOps** for the hackathon.
 
 </div>
